@@ -1,4 +1,5 @@
 import argparse
+import logging
 import os
 
 import pyinotify as i
@@ -24,10 +25,11 @@ class Watcher(i.ProcessEvent):
                 self.register_dir(path)
 
     def register_file(self, file):
-        print(file)
+        logging.info(file)
         self.pointers[file] = os.path.getsize(file)
 
     def register_new_file(self, file):
+        logging.info(file)
         self.pointers[file] = 0
 
     def unregister_file(self, file):
@@ -48,7 +50,7 @@ class Watcher(i.ProcessEvent):
         return res
 
     def process_IN_MODIFY(self, event):
-        print(event)
+        logging.info(event)
 
         file_name = event.pathname
 
@@ -65,13 +67,14 @@ class Watcher(i.ProcessEvent):
                         message=txt
                     )
                 except Exception as e:
+                    logging.exception(e)
                     notification.notify(
                         title="Exception when notify: %s" % str(file_name),
                         message=str(e)
                     )
 
     def process_IN_DELETE(self, event):
-        print(event)
+        logging.info(event)
 
         file_name = event.pathname
 
@@ -80,6 +83,8 @@ class Watcher(i.ProcessEvent):
 
 
 def main():
+    logging.basicConfig(level=logging.INFO)
+
     parser = argparse.ArgumentParser()
     parser.add_argument("path", help="file or directory for watching", nargs="*", default=[os.getcwd()])
 
