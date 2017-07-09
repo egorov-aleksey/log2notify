@@ -8,7 +8,7 @@ def readme():
 
 setup(name='log2notify',
       version='0.1',
-      description='Provides file changes to kde tray notification',
+      description='Provides file changes to tray notification',
       long_description=readme(),
       url='http://github.com/meatbot/log2notify',
       author='Aleksei Egorov',
