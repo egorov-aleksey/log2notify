@@ -3,3 +3,6 @@
 
 ## install
     $ pip install git+https://github.com/meatbot/log2notify.git
+
+## usage
+    $ log2notify DIR_OR_FILES
